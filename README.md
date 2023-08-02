@@ -32,7 +32,10 @@ To run the script:
 ```bash
 python3 sync.py
 ```
-It can also easily be automated using Cron to regularly sync playlists
+Copy the generated URL into a browser and login to your Spotify account. The script will then ask you to input the URL you were redirected to.
+After that it will generate a text file to store the converted video IDs and cache the Spotify login.
+
+The script can also be easily automated using Cron to regularly sync playlists
 
 ## Customization
 
