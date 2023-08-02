@@ -20,7 +20,7 @@ Before running the application, you'll need to set up the following:
 pip install google-api-python-client spotipy
 ```
 
-4. Replace the placeholders in the `main.py` file:
+4. Replace the placeholders in the `sync.py` file:
 - Replace `YOUR_YOUTUBE_API_KEY` with your YouTube API key.
 - Replace `YOUR_YOUTUBE_PLAYLIST_ID` with the ID of the YouTube playlist to sync.
 - Replace `YOUR_SPOTIFY_CLIENT_ID`, `YOUR_SPOTIFY_CLIENT_SECRET`, and `YOUR_SPOTIFY_REDIRECT_URI` with your Spotify application credentials.
@@ -29,13 +29,11 @@ pip install google-api-python-client spotipy
 ## Usage
 
 To run the script:
-```bash
-python3 sync.py
-```
+`python3 sync.py`
 It can also easily be automated using Cron to regularly sync playlists
 
 ## Customization
 
 - You can add keywords to the `BLACKLIST` list to exclude specific words or phrases from Spotify search result. Tracks containing any of the words in the blacklist will be ignored.
 
-- If you wish to modify the track title formatting, you can do so in the `remove_brackets()` function in `main.py`. The function removes square brackets, round brackets, and double quotes from the video title.
+- If you wish to modify the track title formatting, you can do so in the `remove_brackets()` function in `sync.py`. The function removes square brackets, round brackets, and double quotes from the video title.
