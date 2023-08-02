@@ -1,38 +1,41 @@
-# YouTube-to-Spotify Playlist Sync
+# YouTube to Spotify Playlist Sync
 
-YouTube-to-Spotify Playlist Sync is a Python script that helps you synchronize your YouTube playlist with a corresponding Spotify playlist. It fetches the videos from your YouTube playlist, searches for their corresponding tracks on Spotify, and adds them to your Spotify playlist.
+This script allows you to synchronize a YouTube playlist with a Spotify playlist. It uses the YouTube Data API v3 to fetch videos from the specified YouTube playlist and then searches for corresponding tracks on Spotify to add them to the Spotify playlist. Youtube videos IDs are saved to a text file to prevent duplicates and minimise API calls.
 
-## Requirements
+## Prerequisites
 
-Before using the script, you'll need the following:
+Before running the application, you'll need to set up the following:
 
-- [YouTube API Key](https://developers.google.com/youtube/registering_an_application) (to access the YouTube API)
-- [Spotify API Credentials](https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app) (to access the Spotify API)
-- Python 3.x
+1. Obtain API keys for both YouTube and Spotify:
+   - YouTube API Key: [Google Cloud Console](https://console.cloud.google.com)
+   - Spotify API Key: [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications)
 
-## Installation
+2. Create a Spotify application and set the Redirect URI:
+   - Follow the Spotify API documentation to create an application and set the Redirect URI.
+   - Make sure to note down the Spotify Client ID, Client Secret, and Redirect URI for configuration.
 
-1. Clone this repository to your local machine.
-
-2. Install the required Python libraries using pip:
+3. Install the required Python libraries using pip:
 
 ```bash
 pip install google-api-python-client spotipy
-Obtain the YouTube API key and Spotify API credentials and replace the placeholders in the script (YOUR_YOUTUBE_API_KEY, YOUR_SPOTIFY_CLIENT_ID, YOUR_SPOTIFY_CLIENT_SECRET, YOUR_SPOTIFY_REDIRECT_URI, YOUR_SPOTIFY_PLAYLIST_ID).
-Usage
-Prepare your YouTube and Spotify playlist IDs and ensure your video ID file (video_ids.txt) is created or exists in the repository directory.
+```
 
-Run the script:
+4. Replace the placeholders in the `main.py` file:
+- Replace `YOUR_YOUTUBE_API_KEY` with your YouTube API key.
+- Replace `YOUR_YOUTUBE_PLAYLIST_ID` with the ID of the YouTube playlist to sync.
+- Replace `YOUR_SPOTIFY_CLIENT_ID`, `YOUR_SPOTIFY_CLIENT_SECRET`, and `YOUR_SPOTIFY_REDIRECT_URI` with your Spotify application credentials.
+- Replace `YOUR_SPOTIFY_PLAYLIST_ID` with the ID of the Spotify playlist to sync.
 
-bash
-Copy code
-python playlist_sync.py
-The script will fetch the videos from your YouTube playlist and search for corresponding tracks on Spotify. If a suitable track is found, it will be added to your Spotify playlist. If not, the video will be skipped.
+## Usage
 
-The script will keep track of added videos using the video_ids.txt file, preventing duplicates in the future runs.
+To run the script:
+```bash
+python3 sync.py
+```
+It can also easily be automated using Cron to regularly sync playlists
 
-Customization
-You can customize the script to ignore certain Spotify results by adding or modifying entries in the BLACKLIST list. This helps to filter out unwanted tracks based on keywords.
+## Customization
 
-Disclaimer
-This script is intended for personal use and may have limitations due to changes in the YouTube and Spotify APIs. Use it responsibly and respect the terms of service of the respective platforms.
+- You can add keywords to the `BLACKLIST` list to exclude specific words or phrases from Spotify search result. Tracks containing any of the words in the blacklist will be ignored.
+
+- If you wish to modify the track title formatting, you can do so in the `remove_brackets()` function in `main.py`. The function removes square brackets, round brackets, and double quotes from the video title.
