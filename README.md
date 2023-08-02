@@ -29,7 +29,9 @@ pip install google-api-python-client spotipy
 ## Usage
 
 To run the script:
-`python3 sync.py`
+```bash
+python3 sync.py
+```
 It can also easily be automated using Cron to regularly sync playlists
 
 ## Customization
