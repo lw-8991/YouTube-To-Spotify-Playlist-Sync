@@ -22,7 +22,7 @@ SPOTIFY_PLAYLIST_ID = 'SPOTIFY_PLAYLIST_ID'
 BLACKLIST = ['karaoke", "originally performed']
 
 # Leave blank for random position
-POSITION_TO_ADD = 0
+POSITION_TO_ADD = "0"
 
 # Playlist ID file
 VIDEO_ID_FILE = "video_ids.txt"
@@ -133,10 +133,12 @@ def add_spotify(item, youtube_service, spotify_playlist_id,blacklist,video_id_fi
                 print(f"Track already exists in the playlist: {track_query}")
             else:
                 # Add the track to the playlist
-                if position_to_add != "":   
+                if position_to_add == "":   
                     with open(video_id_file, 'r') as f:
                         lines = len(f.readlines())
                     position = random.randint(0,lines)
+                else:
+                    position = position_to_add
                 spotify.playlist_add_items(playlist_id=spotify_playlist_id, items=[track_uri], position=position) 
                 print(f"Track added to the playlist {track_query}")
 
