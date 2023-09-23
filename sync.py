@@ -3,23 +3,26 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import os
 import re
-
+import random
 
 #===============================================================================#
 #===============================================================================#
 
 # Google API credentials
-YOUTUBE_API_KEY = 'YOUR_YOUTUBE_API_KEY'
-YOUTUBE_PLAYLIST_ID = 'YOUR_YOUTUBE_PLAYLIST_ID'
+YOUTUBE_API_KEY = 'YOUTUBE_API_KEY'
+YOUTUBE_PLAYLIST_ID = 'YOUTUBE_PLAYLIST_ID'
 
 # Spotify API credentials
-SPOTIFY_CLIENT_ID = 'YOUR_SPOTIFY_CLIENT_ID'
-SPOTIFY_CLIENT_SECRET = 'YOUR_SPOTIFY_CLIENT_SECRET'
+SPOTIFY_CLIENT_ID = 'SPOTIFY_CLIENT_ID'
+SPOTIFY_CLIENT_SECRET = 'SPOTIFY_CLIENT_SECRET'
 SPOTIFY_REDIRECT_URI = 'http://localhost:5000/callback'
-SPOTIFY_PLAYLIST_ID = 'YOUR_SPOTIFY_PLAYLIST_ID'
+SPOTIFY_PLAYLIST_ID = 'SPOTIFY_PLAYLIST_ID'
 
 # Ignore Spotify results with these words
 BLACKLIST = ['karaoke", "originally performed']
+
+# Leave blank for random position
+POSITION_TO_ADD = 0
 
 # Playlist ID file
 VIDEO_ID_FILE = "video_ids.txt"
@@ -43,7 +46,7 @@ spotify = spotipy.Spotify(
 
 
 # Get YouTube playlist videos
-def main(youtube_service, youtube_playlist_id, video_id_file, spotify_playlist_id,blacklist):
+def main(youtube_service, youtube_playlist_id, video_id_file, spotify_playlist_id,blacklist,position_to_add):
     playlist_items = []
     next_page_token = None
 
@@ -75,7 +78,7 @@ def main(youtube_service, youtube_playlist_id, video_id_file, spotify_playlist_i
                 break
             else:
                 playlist_items.append(item)
-                add_spotify(item, youtube_service, spotify_playlist_id,blacklist)
+                add_spotify(item,youtube_service,spotify_playlist_id,blacklist,video_id_file,position_to_add)
 
         next_page_token = response.get("nextPageToken")
 
@@ -92,7 +95,7 @@ def main(youtube_service, youtube_playlist_id, video_id_file, spotify_playlist_i
 
 
 # Add song to Spotify playlist
-def add_spotify(item, youtube_service, spotify_playlist_id,blacklist):
+def add_spotify(item, youtube_service, spotify_playlist_id,blacklist,video_id_file,position_to_add):
     # Format title
     video_title = remove_brackets(item['snippet']['title'])
 
@@ -130,8 +133,12 @@ def add_spotify(item, youtube_service, spotify_playlist_id,blacklist):
                 print(f"Track already exists in the playlist: {track_query}")
             else:
                 # Add the track to the playlist
-                spotify.playlist_add_items(playlist_id=spotify_playlist_id, items=[track_uri], position=1)
-                print(f"Track added to the playlist: {track_query}")
+                if position_to_add != "":   
+                    with open(video_id_file, 'r') as f:
+                        lines = len(f.readlines())
+                    position = random.randint(0,lines)
+                spotify.playlist_add_items(playlist_id=spotify_playlist_id, items=[track_uri], position=position) 
+                print(f"Track added to the playlist {track_query}")
 
 
 # Get uploader to titles without artist
@@ -160,4 +167,4 @@ def remove_brackets(video_title):
 
 
 if __name__ == "__main__":
-    main(youtube, YOUTUBE_PLAYLIST_ID, VIDEO_ID_FILE, SPOTIFY_PLAYLIST_ID, BLACKLIST)
+    main(youtube, YOUTUBE_PLAYLIST_ID, VIDEO_ID_FILE, SPOTIFY_PLAYLIST_ID, BLACKLIST, POSITION_TO_ADD)
