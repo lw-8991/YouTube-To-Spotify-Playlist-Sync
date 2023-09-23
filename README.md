@@ -25,6 +25,7 @@ pip install google-api-python-client spotipy
 - Replace `YOUR_YOUTUBE_PLAYLIST_ID` with the ID of the YouTube playlist to sync.
 - Replace `YOUR_SPOTIFY_CLIENT_ID`, `YOUR_SPOTIFY_CLIENT_SECRET`, and `YOUR_SPOTIFY_REDIRECT_URI` with your Spotify application credentials.
 - Replace `YOUR_SPOTIFY_PLAYLIST_ID` with the ID of the Spotify playlist to sync.
+- Replace `POSITION_TO_ADD` with the desired posion to insert songs in the playlist. Leave blank to add randomly.
 
 ## Usage
 
